@@ -33,9 +33,9 @@ def extract_mfcc_LITE(file_path, sr, n_mfcc):
     audio = file_path.numpy().squeeze()
 
     mfcc = librosa.feature.mfcc(y=audio, sr=sr, n_mfcc=n_mfcc)
-    print("MFCC SINGLE")
-    print(mfcc)
-    print(mfcc.shape)
+    # print("MFCC SINGLE")
+    # print(mfcc)
+    # print(mfcc.shape)
     return mfcc
 
 def extract_mfcc_pytorch(file_path, n_fft, hop_length, n_mels, mel_scale, n_mfcc):

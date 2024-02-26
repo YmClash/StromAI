@@ -1,4 +1,6 @@
 import os
+
+import torch
 import torchaudio
 from torch.utils.data import Dataset, DataLoader
 import torchaudio.transforms as T
@@ -8,7 +10,7 @@ from mfcc_extracter import extract_mfcc,extract_mfcc_pytorch,extract_mfcc_LITE
 sample_rate  = 44100
 n_mfcc = 40
 hop_length = 160
-n_fft = 400
+n_fft = 259
 n_mels = 40
 mel_scale = 'htk'
 
@@ -31,7 +33,7 @@ class AudioDataset(Dataset) :
 
 
         if not os.path.isdir(directory):
-            raise  ValueError(f" le dossier specifie n'existe pa :{directory}")
+            raise  ValueError(f" le dossier specifie n'existe paa :{directory}")
 
         for label in os.listdir(directory) :
             label_dir = os.path.join(directory, label)
@@ -43,10 +45,10 @@ class AudioDataset(Dataset) :
                         self.labels.append(self.label_to_index[label])
 
     def __len__(self) :
-        #####Test##
+        ####Test##
         # print("LENGTH OF THE DATASET")
         # print(len(self.files))
-        ###########
+        # ###########
         return len(self.files)
 
     def __getitem__(self, idx) :
@@ -66,8 +68,9 @@ class AudioDataset(Dataset) :
 
 
 
-        if self.transform :
-            mfcc = self.transform(mfcc)
+        # if self.transform:
+        #     mfcc = self.transform(mfcc)
+        # label_tensor = label
         # ####test##
         # print("WAVEFORM AND LABEL")
         # print(mfcc)
@@ -76,19 +79,19 @@ class AudioDataset(Dataset) :
 
         return mfcc, label
 
-#
+# #
 # TRAIN_DATA_DIR = r"C:\Users\y_mc\PycharmProjects\StromAI\Dataset\IRMAS-TrainingData"
-#
+# #
 # train_data = AudioDataset(TRAIN_DATA_DIR)
 # train_loader = DataLoader(train_data,batch_size=32,shuffle=True)
 # print(len(train_data))
-#
+# #
 # # Chargement et utilisation d'un élément
 # for waveform, label in train_loader:
 #     mfcc = extract_mfcc_LITE(waveform, sr=sample_rate, n_mfcc=n_mfcc)
 #     print(f"Waveform shape: {mfcc.shape}, Label: {label}")
-
-
-# for waveform,label in train_loader:
-#     print(f"Waveform shape: {waveform.shape}, Label: {label}")
 #
+# # for mfcc,label in train_loader:
+# #     print(f"Waveform shape: {mfcc.shape}:{mfcc}, Label: {label}")
+# #
+

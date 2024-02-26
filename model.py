@@ -55,7 +55,30 @@ class Attention_All(nn.Module):
         context_vector = weight_output.sum(dim=1)
 
         return context_vector,attention_weight
-        
+#######################################
+
+class AttentionLSTM(nn.Module):
+    def __init__(self, input_dim, hidden_dim, num_classes, num_heads):
+        super().__init__()
+
+        self.lstm = nn.LSTM(input_dim, hidden_dim)
+        self.attention = MultiHeadAttention(hidden_dim, num_heads)
+        self.fc = nn.Linear(hidden_dim, num_classes)
+
+    def forward(self, x):
+        # Sorties cachées et état caché du LSTM
+        outputs, (h_n, c_n) = self.lstm(x)
+
+        # Attention multi-têtes
+        attention_weights = self.attention(outputs)
+
+        # Contexte pondéré
+        context = attention_weights * outputs
+
+        # Classification
+        logits = self.fc(context)
+
+        return logits
         
 # Multi  Head Attention ********
 class MultiHeadAttention(nn.Module):
