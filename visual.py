@@ -24,6 +24,8 @@ def plot_waveform(waveform, sr, title="Waveform", ax=None ):
     ax.set_xlim([0, time_axis[-1]])
     ax.set_title(title)
 
+    return plt.gcf()
+
 
 def plot_spectrogram(specgram, title=None, ylabel="freq_bin", ax=None ):
     if ax is None:
@@ -34,6 +36,8 @@ def plot_spectrogram(specgram, title=None, ylabel="freq_bin", ax=None ):
     ax.imshow(librosa.power_to_db(specgram), origin="lower", aspect="auto", interpolation="nearest")
 
     plt.show()
+
+    return plt.gcf()
 #
 
 def plot_fbank(fbank, title=None ):
@@ -43,7 +47,8 @@ def plot_fbank(fbank, title=None ):
     axs.set_ylabel("frequency bin")
     axs.set_xlabel("mel bin")
 
-    plt.show()
+    return plt.gcf()
+
 
 
 def plot_pitch(waveform, sr, pitch ):
@@ -59,7 +64,7 @@ def plot_pitch(waveform, sr, pitch ):
     time_axis = torch.linspace(0, end_time, pitch.shape[1])
     axis2.plot(time_axis, pitch[0], linewidth=2, label="Pitch", color="green")
 
-    axis2.legend(loc=0)
+    # axis2.legend(loc=0)
 
-    plt.show()
+    return plt.gcf()
 

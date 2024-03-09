@@ -3,7 +3,8 @@ import torch
 import torchaudio
 from torchaudio.transforms import MFCC
 import os
-
+from visual import plot_waveform ,plot_spectrogram
+import matplotlib.pyplot as plt
 def extract_mfcc(dir_path, sr, n_mfcc):
     mfcc_list = []
     if isinstance(dir_path, (list, tuple)):
@@ -48,3 +49,23 @@ def extract_mfcc_pytorch(file_path, n_fft, hop_length, n_mels, mel_scale, n_mfcc
     print(mfcc)
     print(mfcc.shape)
     return mfcc
+
+
+DATA = r"C:\Users\y_mc\PycharmProjects\StromAI\Dataset\Test_Set\[pia][cla]1283__1.wav"
+n_mfcc = 40
+n_fft = 400
+hop_length = 160
+n_mels = 40
+mel_scale = 'htk'
+s_ra = 44100
+
+audio,sr = torchaudio.load(DATA)
+# fig_wav = plot_waveform(audio,sr=sr,title= "Waveform",ax=None )
+
+
+mfcc = extract_mfcc_pytorch(file_path=DATA,n_fft=n_fft,hop_length=hop_length,n_mels=n_mels,mel_scale=mel_scale,n_mfcc=n_mfcc)
+mfcc_vis = mfcc.squeeze(0)
+fig_Mfcc = plot_spectrogram(mfcc,title="MFCC")
+
+# plt.show(fig_wav)
+plt.show(fig_Mfcc)
